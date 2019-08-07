@@ -33,6 +33,7 @@ export const Post = objectType({
     t.model.content()
     t.model.published()
     t.model.author()
+    t.model.category()
   },
 })
 
@@ -111,6 +112,23 @@ const Mutation = objectType({
         })
       },
     })
+
+    t.field('setCategory', {
+      type: 'Post',
+      args: {
+        id: idArg(),
+        category: stringArg(),
+      },
+      resolve: async (_, { id, category }, ctx) => {
+        return await ctx.photon.posts.update({
+          where: { id },
+          data: {
+            category,
+          },
+        })
+      },
+    })
+
   },
 })
 
